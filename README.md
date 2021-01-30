@@ -1,7 +1,21 @@
 # Project_4_backend
 
-## RESTful Routes
+## Back end Tech
+* Python
+* Postgres
+* Flask
+* Peewee
+* bcrypt
 
+## Models
+* Users
+* Palettes
+* Colors
+* ColorPalette (N:M)
+* UserPalette (1:M)
+* UserFavorites (N:M)
+
+## RESTful Routes
 CRUD | Route | Description
 ----|----|------
 GET | / or /home | Home
