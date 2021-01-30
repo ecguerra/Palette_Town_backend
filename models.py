@@ -26,8 +26,12 @@ class User(UserMixin, BaseModel):
     email = CharField(unique=True)
     password = CharField()
 
+class ColorPalette(BaseModel):
+    color = ForeignKeyField(Color, backref='colors')
+    palette = ForeignKeyField(Palette, backref='palettes')
+
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Color, Palette, User], safe=True)
+    DATABASE.create_tables([Color, Palette, User, ColorPalette], safe=True)
     print('TABLES CREATED')
     DATABASE.close()

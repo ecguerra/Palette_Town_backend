@@ -20,9 +20,12 @@ CRUD | Route | Description
 ----|----|------
 GET | / or /home | Home
 GET | /profile | User's profile
-GET | /palette/:id | Palette detail
+GET | /api/palette/:id | Palette detail
+GET | /api/colors | View all colors
+GET | /api/colors/:id | View one color
 POST | /signup | Sign Up
 POST | /login | Login
-POST | /palette/:id | Save palette
+POST | /api/colors/new | Create a color
+POST | /api/palette/new | Save palette
 PUT | /palette/:id | Edit palette (including private/public and upvoting?)
 DELETE | /palette/:id | Delete palette
