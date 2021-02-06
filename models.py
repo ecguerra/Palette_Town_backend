@@ -21,7 +21,7 @@ class Palette(BaseModel):
     name = CharField()
     created_at = DateTimeField(default=datetime.datetime.now)
 
-class User(UserMixin, BaseModel):
+class AppUser(UserMixin, BaseModel):
     username = CharField(unique=True)
     email = CharField(unique=True)
     password = CharField()
@@ -32,6 +32,6 @@ class ColorPalette(BaseModel):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Color, Palette, User, ColorPalette], safe=True)
+    DATABASE.create_tables([Color, Palette, AppUser, ColorPalette], safe=True)
     print('TABLES CREATED')
     DATABASE.close()
