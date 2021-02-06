@@ -7,6 +7,7 @@ from resources.colors import colors
 from resources.palettes import palettes
 from resources.app_users import app_users
 from resources.color_palettes import color_palettes
+from resources.saved_palettes import saved_palettes
 
 DEBUG=True
 PORT=8000
@@ -39,6 +40,7 @@ app.register_blueprint(colors, url_prefix='/api/colors')
 app.register_blueprint(palettes, url_prefix='/api/palettes')
 app.register_blueprint(app_users, url_prefix='/api/app_users')
 app.register_blueprint(color_palettes, url_prefix='/api/color_palettes')
+app.register_blueprint(saved_palettes, url_prefix='/api/saved_palettes')
 
 @app.route('/')
 def index():

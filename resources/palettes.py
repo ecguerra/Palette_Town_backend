@@ -2,6 +2,7 @@ import models
 
 from flask import Blueprint, jsonify, request
 from playhouse.shortcuts import model_to_dict
+from flask_login import current_user
 
 palettes = Blueprint('palettes','palettes')
 
@@ -15,7 +16,10 @@ def get_all_palettes():
 
 @palettes.route('/new',methods=['POST'])
 def create_palette():
-    payload = request.get_json()
-    palette = models.Palette.create(**payload)
-    palette_dict = model_to_dict(palette)
-    return jsonify(data=palette_dict, status={"code": 201, "message": "Successfully created"})
+    if current_user.id:
+        payload = request.get_json()
+        palette = models.Palette.create(**payload)
+        # current_user.id (?)
+        palette_dict = model_to_dict(palette)
+
+        return jsonify(data=palette_dict, status={"code": 201, "message": "Successfully created"})

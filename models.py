@@ -17,21 +17,26 @@ class Color(BaseModel):
     hsl_name = CharField()
     cmyk_name = CharField()
 
-class Palette(BaseModel):
-    name = CharField()
-    created_at = DateTimeField(default=datetime.datetime.now)
-
 class AppUser(UserMixin, BaseModel):
     username = CharField(unique=True)
     email = CharField(unique=True)
     password = CharField()
 
+class Palette(BaseModel):
+    name = CharField()
+    created_at = DateTimeField(default=datetime.datetime.now)
+    app_user = ForeignKeyField(AppUser, backref='palettes')
+
 class ColorPalette(BaseModel):
-    color = ForeignKeyField(Color, backref='colors')
-    palette = ForeignKeyField(Palette, backref='palettes')
+    color = ForeignKeyField(Color, backref='on_palettes')
+    palette = ForeignKeyField(Palette, backref='used_colors')
+
+class SavedPalette(BaseModel):
+    app_user = ForeignKeyField(AppUser, backref='saved_by')
+    palette = ForeignKeyField(Palette, backref='saved_palettes')
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Color, Palette, AppUser, ColorPalette], safe=True)
+    DATABASE.create_tables([Color, Palette, AppUser, ColorPalette, SavedPalette], safe=True)
     print('TABLES CREATED')
     DATABASE.close()
