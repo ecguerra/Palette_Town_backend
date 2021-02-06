@@ -5,6 +5,7 @@ from playhouse.shortcuts import model_to_dict
 
 colors = Blueprint('colors','colors')
 
+#dev route - will need to be modified for frontend
 @colors.route('/',methods=['GET'])
 def get_all_colors():
     try:
@@ -13,6 +14,7 @@ def get_all_colors():
     except models.DoesNotExist:
         return jsonify(data={},status={"code": 404, "message": "Error - that model doesn\'t exist"})
 
+# dev route - will be using API from frontend
 @colors.route('/new',methods=['POST'])
 def create_color():
     payload = request.get_json()

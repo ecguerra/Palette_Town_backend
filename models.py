@@ -26,6 +26,7 @@ class Palette(BaseModel):
     name = CharField()
     created_at = DateTimeField(default=datetime.datetime.now)
     app_user = ForeignKeyField(AppUser, backref='palettes')
+    # might need another field for Likes?
 
 class ColorPalette(BaseModel):
     color = ForeignKeyField(Color, backref='on_palettes')
