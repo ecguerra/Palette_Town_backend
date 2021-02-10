@@ -1,6 +1,17 @@
 # Project_4_backend
 
-## Back end Tech
+BACKEND
+- [x] link to frontend repo
+- [] link to deployed api
+- [] explanation of backend tech used
+- [] general approach (a couple paragraphs)
+- [] installation instructions
+- [] table with RESTful routes & resources available at each endpoint
+- [] unsolved problems / major hurdles
+
+[Frontend Repo](https://github.com/ecguerra/Project_4_frontend)
+
+## Backend Tech
 * Python
 * Postgres
 * Flask
