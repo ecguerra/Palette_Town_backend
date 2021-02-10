@@ -44,9 +44,23 @@ def create_palette():
 @palettes.route('/<id>', methods=['GET'])
 def get_palette(id):
     try:
-        palette = models.Palette.get_by_id(id)
-        palette_dict = model_to_dict(palette)
-        return jsonify(data=palette_dict, \
+        query = (models.ColorPalette.select()
+                 .join(models.Palette)
+                 .switch(models.ColorPalette)
+                 .join(models.Color)
+                 .where(models.ColorPalette.palette == id))
+        palette = [model_to_dict(item) for item in query]
+
+        # palette = [model_to_dict(palette) for palette in \
+        #            models.Palette.select() \
+        #           .join(models.ColorPalette) \
+        #           .switch(models.ColorPalette) \
+        #           .join(models.Color) \
+        #           .where(models.Palette.id == id)]
+
+        # palette = models.Palette.get_by_id(id)
+        # palette_dict = model_to_dict(palette)
+        return jsonify(data=palette, \
                        status={"code": 200, "message": "Success"})
     except models.DoesNotExist:
         return jsonify(data={}, \
