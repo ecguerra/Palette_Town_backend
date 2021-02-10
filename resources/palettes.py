@@ -6,8 +6,8 @@ from flask_login import current_user
 
 palettes = Blueprint('palettes','palettes')
 
-# dev route - will need user-specific
-@palettes.route('/',methods=['GET'])
+# This might just be a dev route - something similar for 'published/public' palettes though
+@palettes.route('/all', methods=['GET'])
 def get_all_palettes():
     try:
         palettes = [model_to_dict(palettes) for palettes in models.Palette.select()]
@@ -15,15 +15,31 @@ def get_all_palettes():
     except models.DoesNotExist:
         return jsonify(data={},status={"code": 404, "message": "Error - that model doesn\'t exist"})
 
-@palettes.route('/new',methods=['POST'])
+# show the user their palettes
+@palettes.route('/', methods=['GET'])
+def get_user_palettes():
+    try:
+        palettes = [model_to_dict(palettes) for palettes in \
+                    models.Palette.select() \
+                   .join_from(models.Palette, models.AppUser) \
+                   .where(models.AppUser.id == current_user.id) \
+                   .group_by(models.Palette.id)]
+        # need something that will take the password out of the request
+        return jsonify(data=palettes, status={"code": 200, "message": "Success"})
+    except models.DoesNotExist:
+        return jsonify(data={}, \
+                       status={"code": 401, "message": "Log in or sign up to view your palettes"})
+
+
+@palettes.route('/new', methods=['POST'])
 def create_palette():
     if current_user.id:
         payload = request.get_json()
         palette = models.Palette.create(**payload)
-        # current_user.id (?)
         palette_dict = model_to_dict(palette)
 
         return jsonify(data=palette_dict, status={"code": 201, "message": "Successfully created"})
+
 
 @palettes.route('/<id>', methods=['GET'])
 def get_palette(id):

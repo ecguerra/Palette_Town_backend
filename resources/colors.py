@@ -14,6 +14,7 @@ def get_all_colors():
     except models.DoesNotExist:
         return jsonify(data={},status={"code": 404, "message": "Error - that model doesn\'t exist"})
 
+
 # dev route - will be using API from frontend
 @colors.route('/new',methods=['POST'])
 def create_color():
