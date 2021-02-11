@@ -2,7 +2,7 @@ import models
 
 from flask import Blueprint, jsonify, request
 from playhouse.shortcuts import model_to_dict
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 palettes = Blueprint('palettes','palettes')
 
@@ -17,6 +17,7 @@ def get_all_palettes():
 
 # show the user their palettes
 @palettes.route('/', methods=['GET'])
+@login_required
 def get_user_palettes():
     try:
         palettes = [model_to_dict(palettes) for palettes in \

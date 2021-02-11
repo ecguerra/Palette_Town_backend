@@ -1,7 +1,6 @@
 from flask import Flask, g
 from flask_cors import CORS
 from flask_login import LoginManager
-from flask_jwt import JWT, jwt_required, current_identity
 
 import models
 from resources.colors import colors
