@@ -15,10 +15,22 @@ def get_all_colors():
         return jsonify(data={},status={"code": 404, "message": "Error - that model doesn\'t exist"})
 
 
-# dev route - will be using API from frontend
-@colors.route('/new',methods=['POST'])
-def create_color():
+@colors.route('/new',methods=['GET','POST'])
+def find_or_create_color():
     payload = request.get_json()
-    color = models.Color.create(**payload)
-    color_dict = model_to_dict(color)
-    return jsonify(data=color_dict, status={"code": 201, "message": "Successfully created"})
+    try:
+        color = models.Color.get(models.Color.hex_name == payload['hex_name'])
+        color_dict = model_to_dict(color)
+        return jsonify(data=color_dict, status={"code": 200, "message": "Successfully found"})
+    except models.Color.DoesNotExist:
+        new_color = models.Color.create(**payload)
+        new_color_dict = model_to_dict(new_color)
+        return jsonify(data=new_color_dict, status={"code": 200, "message": "Successfully created"})
+
+# def create_color():
+#     payload = request.get_json()
+#     color = models.Color.create(**payload)
+#     color_dict = model_to_dict(color)
+#     return jsonify(data=color_dict, status={"code": 201, "message": "Successfully created"})
+
+

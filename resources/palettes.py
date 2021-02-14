@@ -38,7 +38,7 @@ def create_palette():
         payload = request.get_json()
         palette = models.Palette.create(**payload)
         palette_dict = model_to_dict(palette)
-
+        del palette_dict['app_user']['password']
         return jsonify(data=palette_dict, status={"code": 201, "message": "Successfully created"})
 
 
