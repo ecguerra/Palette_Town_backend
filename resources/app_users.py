@@ -3,7 +3,7 @@ import models
 from flask import Blueprint, jsonify, request, session
 from playhouse.shortcuts import model_to_dict
 from flask_bcrypt import generate_password_hash, check_password_hash
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 
 app_users = Blueprint('app_users','app_users')
 
@@ -25,7 +25,8 @@ def signup():
         payload['password'] = generate_password_hash(payload['password'])
         app_user = models.AppUser.create(**payload)
 
-        login_user(app_user)
+        login_user(user=app_user)
+        # session['logged_in']=True{withCredentials: true}
 
         app_user_dict = model_to_dict(app_user)
         del app_user_dict['password']
@@ -43,7 +44,7 @@ def login():
             if(check_password_hash(app_user_dict['password'], payload['password'])):
                 del app_user_dict['password']
                 login_user(user=app_user)
-                session['logged_in']=True
+                # session['logged_in']=True
                 return jsonify(data=app_user_dict, \
                                status={"code": 200, "message": "Successfully logged in"})
             else:
@@ -52,7 +53,8 @@ def login():
             return jsonify(data={}, status={"code": 401, "message": "Invalid username or password"})
             
 @app_users.route('/logout', methods=['GET','POST'])
+@login_required
 def logout():
-    if current_user:
-        logout_user()
-        return jsonify(data={}, status={"code": 200, "message": "Successfully logged out"})
+    logout_user()
+    # session['logged_in']=False
+    return jsonify(data={}, status={"code": 200, "message": "Successfully logged out"})

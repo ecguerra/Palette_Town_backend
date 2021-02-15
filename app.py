@@ -1,5 +1,5 @@
 from flask import Flask, g
-from flask_cors import CORS
+from flask_cors import CORS, logging
 from flask_login import LoginManager
 
 import models
@@ -16,6 +16,12 @@ app = Flask(__name__)
 
 app.config.from_pyfile('config.py')
 
+CORS(app, \
+     origins=['http://localhost:3000'], \
+     supports_credentials=True)
+
+logging.getLogger('flask_cors').level = logging.DEBUG
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/login'
@@ -24,7 +30,6 @@ login_manager.login_view = '/login'
 def load_user(user_id):
     try:
         return models.AppUser.get_by_id(user_id)
-        # return models.AppUser.query.filter(models.AppUser.id == int(user_id)).first() # UserMixin does not use query
     except models.DoesNotExist:
         return None
 
@@ -37,10 +42,6 @@ def before_request():
 def after_request(response):
     g.db.close()
     return response    
-
-CORS(app, \
-     origins=['http://localhost:3000/'], \
-     supports_credentials=True)
 
 app.register_blueprint(colors, url_prefix='/api/colors')
 app.register_blueprint(palettes, url_prefix='/api/palettes')
