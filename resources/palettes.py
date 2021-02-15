@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 
 palettes = Blueprint('palettes','palettes')
 
-# This might just be a dev route - something similar for 'published/public' palettes though
+# probably will need to refactor similar to getOne to join colors & saves
 @palettes.route('/all', methods=['GET'])
 def get_all_palettes():
     try:
@@ -14,6 +14,9 @@ def get_all_palettes():
         return jsonify(data=palettes, status={"code": 200, "message": "Success"})
     except models.DoesNotExist:
         return jsonify(data={},status={"code": 404, "message": "Error - that model doesn\'t exist"})
+# still need something to stop password from being passed through 
+# del palettes['app_user']['password'] didn't work
+
 
 # show the user their palettes
 @palettes.route('/', methods=['GET'])
@@ -25,7 +28,6 @@ def get_user_palettes():
                    .join_from(models.Palette, models.AppUser) \
                    .where(models.AppUser.id == current_user.id) \
                    .group_by(models.Palette.id)]
-        # need something that will take the password out of the request
         return jsonify(data=palettes, status={"code": 200, "message": "Success"})
     except models.DoesNotExist:
         return jsonify(data={}, \
@@ -33,6 +35,7 @@ def get_user_palettes():
 
 
 @palettes.route('/new', methods=['POST'])
+@login_required
 def create_palette():
     if current_user.id:
         payload = request.get_json()
@@ -59,8 +62,9 @@ def get_palette(id):
                        status={"code": 404, "message": "resource not found"})
 
 # update a palette. will mainly be to change the name
-# will probably need some sort of auth to edit
+# will probably need some sort of auth to edit - login_required just means no anonymous users
 @palettes.route('/<id>', methods=['PUT'])
+@login_required
 def update_palette(id):
     try:
         payload = request.get_json()
@@ -73,8 +77,9 @@ def update_palette(id):
         return jsonify(data={}, \
                        status={"code": 404, "message": "resource not found"})
 
-# delete a palette
+# delete a palette - need better auth
 @palettes.route('/<id>', methods=['Delete'])
+@login_required
 def delete_palette(id):
     palette_to_delete = models.Palette.get_by_id(id)
     palette_to_delete.delete_instance()

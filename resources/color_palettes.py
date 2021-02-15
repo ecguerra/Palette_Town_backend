@@ -11,3 +11,5 @@ def create_color_palette():
     color_palette = models.ColorPalette.create(**payload)
     color_palette_dict = model_to_dict(color_palette)
     return jsonify(data=color_palette_dict, status={"code": 201, "message": "Successfully created"})
+
+# Need a Delete route to remove a color from a palette, but not delete either of those

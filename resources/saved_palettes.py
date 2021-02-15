@@ -12,3 +12,5 @@ def create_saved_palette():
     saved_palette = models.SavedPalette.create(**payload)
     saved_palette_dict = model_to_dict(saved_palette)
     return jsonify(data=saved_palette_dict, status={"code": 201, "message": "Successfully created"})
+
+# need a Delete route to "unsave" - don't delete user or palette
