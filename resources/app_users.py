@@ -26,8 +26,6 @@ def signup():
         app_user = models.AppUser.create(**payload)
 
         login_user(user=app_user)
-        # session['logged_in']=True{withCredentials: true}
-
         app_user_dict = model_to_dict(app_user)
         del app_user_dict['password']
         return jsonify(data=app_user_dict, \
@@ -44,7 +42,6 @@ def login():
             if(check_password_hash(app_user_dict['password'], payload['password'])):
                 del app_user_dict['password']
                 login_user(user=app_user)
-                # session['logged_in']=True
                 return jsonify(data=app_user_dict, \
                                status={"code": 200, "message": "Successfully logged in"})
             else:
@@ -56,5 +53,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    # session['logged_in']=False
     return jsonify(data={}, status={"code": 200, "message": "Successfully logged out"})
