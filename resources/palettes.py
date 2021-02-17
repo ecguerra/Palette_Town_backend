@@ -18,6 +18,7 @@ def get_all_palettes():
         return jsonify(data={},status={"code": 404, "message": "Error - that model doesn\'t exist"})
 # still need something to stop password from being passed through 
 # del palettes['app_user']['password'] didn't work
+# Look up 'lazy loading'
 
 
 # show the user their palettes
@@ -96,6 +97,5 @@ def update_palette(id):
 @login_required
 def delete_palette(id):
     palette_to_delete = models.Palette.get_by_id(id)
-    palette_to_delete.delete_instance()
-
+    palette_to_delete.delete_instance(recursive=True)
     return jsonify(data={},status={"code": 200, "message": "Successfully deleted"})
