@@ -54,3 +54,10 @@ def login():
 def logout():
     logout_user()
     return jsonify(data={}, status={"code": 200, "message": "Successfully logged out"})
+
+@app_users.route('/current', methods=['GET'])
+@login_required
+def get_current():
+    current_dict = model_to_dict(models.AppUser.get_by_id(current_user.id))
+    return jsonify(data=current_dict, \
+                   status={"code": 200, "message": "Successfully found"})
