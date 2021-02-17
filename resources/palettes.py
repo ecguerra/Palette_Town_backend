@@ -62,6 +62,18 @@ def get_palette(id):
         return jsonify(data={}, \
                        status={"code": 404, "message": "resource not found"})
 
+
+@palettes.route('/name/<id>', methods=['GET'])
+def get_palette_name(id):
+    try:
+        palette = (models.Palette.select()
+                  .where(models.Palette.id == id))
+        palette_dict = [model_to_dict(palette) for palette in palette]
+        return jsonify(data=palette_dict, status={"code": 201, "message": "Successfully found"})
+    except models.DoesNotExist:
+        return jsonify(data={}, \
+                       status={"code": 404, "message": "resource not found"})
+
 # update a palette. will mainly be to change the name
 # will probably need some sort of auth to edit - login_required just means no anonymous users
 @palettes.route('/<id>', methods=['PUT'])
@@ -69,6 +81,7 @@ def get_palette(id):
 def update_palette(id):
     try:
         payload = request.get_json()
+        payload['app_user_id'] = current_user.id
         query = models.Palette.update(**payload).where(models.Palette.id==id)
         query.execute()
         updated_palette = model_to_dict(models.Palette.get_by_id(id))
