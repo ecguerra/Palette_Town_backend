@@ -7,9 +7,6 @@ from flask_login import login_user, logout_user, current_user, login_required
 
 app_users = Blueprint('app_users','app_users')
 
-@app_users.route('/',methods=['GET'])
-def get_all_users():
-    return 'users stub'
 
 @app_users.route('/signup', methods=['POST'])
 def signup():

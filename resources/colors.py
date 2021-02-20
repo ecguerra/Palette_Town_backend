@@ -27,10 +27,4 @@ def find_or_create_color():
         new_color_dict = model_to_dict(new_color)
         return jsonify(data=new_color_dict, status={"code": 200, "message": "Successfully created"})
 
-# def create_color():
-#     payload = request.get_json()
-#     color = models.Color.create(**payload)
-#     color_dict = model_to_dict(color)
-#     return jsonify(data=color_dict, status={"code": 201, "message": "Successfully created"})
-
 
