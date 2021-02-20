@@ -36,6 +36,7 @@ Once I tried to connect to the frontend, the biggest challenge became getting au
 * ColorPalette (N:M)
 * SavedPalette (N:M)
 
+[Lucidchart ERD](https://lucid.app/lucidchart/invitations/accept/1f29d2ef-6220-4f3a-9188-a495efec36b3)
 
 ## RESTful Routes
 CRUD | Route | Description
