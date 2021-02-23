@@ -2,6 +2,8 @@ from flask import Flask, g
 from flask_cors import CORS, logging
 from flask_login import LoginManager
 
+import os
+
 import models
 from resources.colors import colors
 from resources.palettes import palettes
@@ -17,7 +19,7 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 CORS(app, \
-     origins=['http://localhost:3000'], \
+     origins=['http://localhost:3000','https://palettetown.netlify.app'], \
      supports_credentials=True)
 
 logging.getLogger('flask_cors').level = logging.DEBUG
@@ -52,6 +54,10 @@ app.register_blueprint(saved_palettes, url_prefix='/api/saved_palettes')
 @app.route('/')
 def index():
     return 'Homepage'
+
+if 'ON_HEROKU' in os.environ:
+    print('HEROKU SITE')
+    models.initialize()
 
 if __name__ == '__main__':
     models.initialize()

@@ -1,10 +1,12 @@
 from peewee import *
 from flask_login import UserMixin
+from playhouse.db_url import connect
 
 import datetime
 import config as cfg
+import os
 
-DATABASE = PostgresqlDatabase(cfg.DB_DEV['name'],host=cfg.DB_DEV['host'],user=cfg.DB_DEV['user'],password=cfg.DB_DEV['password'],port=cfg.DB_DEV['port'])
+DATABASE = connect(os.environ.get('DATABASE_URL'))
 
 class BaseModel(Model):
     class Meta:
