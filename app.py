@@ -16,7 +16,7 @@ PORT=8000
 
 app = Flask(__name__)
 
-app.config.from_pyfile('config.py')
+# app.config.from_pyfile('config.py')
 
 CORS(app, \
      origins=['http://localhost:3000','https://palettetown.netlify.app'], \
