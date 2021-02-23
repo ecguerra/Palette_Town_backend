@@ -1,7 +1,7 @@
 # Palette Town - Backend
 
-[Frontend Repo](https://github.com/ecguerra/Project_4_frontend)
-### Backend deployment: TBD
+## [Heroku](https://palette-town-api-heroku.herokuapp.com/)
+## [Frontend Repo](https://github.com/ecguerra/Project_4_frontend)
 
 
 ## Installation Instructions
@@ -69,5 +69,5 @@ Big shoutout to the "Room 5 crew" (Monica, Dan, Taylor, Camille, Salima, Gabe, L
 And of course, thank you to Andy for making sure I ate regularly and for putting up with a grouchy code gremlin for 6 months.
 
 
-[Frontend Repo](https://github.com/ecguerra/Project_4_frontend)
-### Backend deployment: TBD
+## [Heroku](https://palette-town-api-heroku.herokuapp.com/)
+## [Frontend Repo](https://github.com/ecguerra/Project_4_frontend)
