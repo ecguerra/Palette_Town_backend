@@ -3,10 +3,9 @@ from flask_login import UserMixin
 from playhouse.db_url import connect
 
 import datetime
-import config as cfg
 import os
 
-DATABASE = connect(os.environ.get('DATABASE_URL'))
+DATABASE = connect(os.environ.get('DATABASE_URL')
 
 class BaseModel(Model):
     class Meta:
