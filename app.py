@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY']=(os.environ.get('SECRET_KEY'))
 
 CORS(app, \
-     origins=['http://localhost:3000','https://palettetown.netlify.app'], \
+     origins=['http://localhost:3000','https://palettetown.netlify.app','https://palette-town-api-heroku.herokuapp.com/'], \
      supports_credentials=True)
 
 logging.getLogger('flask_cors').level = logging.DEBUG
@@ -37,11 +37,14 @@ def load_user(user_id):
 
 @app.before_request
 def before_request():
+    app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
     g.db = models.DATABASE
     g.db.connect()
 
 @app.after_request
 def after_request(response):
+    app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
+    response.headers.add("Set-Cookie", f"my_cookie='a cookie'; Secure; SameSite=None;")
     g.db.close()
     return response    
 
@@ -50,6 +53,11 @@ app.register_blueprint(palettes, url_prefix='/api/palettes')
 app.register_blueprint(app_users, url_prefix='/api/app_users')
 app.register_blueprint(color_palettes, url_prefix='/api/color_palettes')
 app.register_blueprint(saved_palettes, url_prefix='/api/saved_palettes')
+CORS(colors)
+CORS(palettes)
+CORS(app_users)
+CORS(color_palettes)
+CORS(saved_palettes)
 
 @app.route('/')
 def index():
